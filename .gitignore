@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.env
+
+# FastAPI & Virtual Environment
+venv/
+.env
+*.log
+
+# SQLite Database
+*.sqlite3
+*.db
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+
+# Node.js (Frontend scripting)
+node_modules/
+dist/
+
+# Cache & Dependencies
+*.cache/
+__pycache__/
+
+# Prolog
+*.pl~
