@@ -1,7 +1,7 @@
 ## Instalación y Configuración
 1. Clonar el repositorio:
    ```sh
-   git clone [<URL_DEL_REPO>](https://github.com/Arlo-O/GestorRecetas.git)
+   git clone https://github.com/Arlo-O/GestorRecetas.git
    cd GestorRecetas
    ```
 2. Crear entorno virtual e instalar dependencias:
