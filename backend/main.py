@@ -1,13 +1,13 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from database import get_db, engine, Base
-from schemas import UsuarioCreate, UsuarioDB, RecetaCreate, RecetaDB
-from crud import (
+from .database import get_db, engine, Base
+from .schemas import UsuarioCreate, UsuarioDB, RecetaCreate, RecetaDB
+from .crud import (
     create_usuario, get_usuarios, delete_usuario, get_usuario,
     create_receta, get_recetas, delete_receta
 )
-from prolog.consultas import obtener_recetas_por_dificultad, obtener_recetas_saludables, buscar_recetas_por_ingrediente
+from .prolog.consultas import obtener_recetas_por_dificultad, obtener_recetas_saludables, buscar_recetas_por_ingrediente
 from models import Usuario, Receta
 app = FastAPI()
 
