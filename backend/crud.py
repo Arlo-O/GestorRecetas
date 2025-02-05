@@ -1,7 +1,7 @@
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from models import Usuario, Ingrediente, Receta
-from schemas import UsuarioCreate, RecetaCreate, IngredienteBase
+from .models import Usuario, Ingrediente, Receta
+from .schemas import UsuarioCreate, RecetaCreate, IngredienteBase
 
 async def get_usuarios(db: AsyncSession):
     result = await db.execute(select(Usuario))
