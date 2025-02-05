@@ -1,11 +1,15 @@
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from .models import Usuario, Ingrediente, Receta
-from .schemas import UsuarioCreate, RecetaCreate, IngredienteBase
+from models import Usuario, Ingrediente, Receta
+from schemas import UsuarioCreate, RecetaCreate, IngredienteBase
 
 async def get_usuarios(db: AsyncSession):
     result = await db.execute(select(Usuario))
     return result.scalars().all()
+
+async def get_usuario(db: AsyncSession, usuario_id: int):
+    result = await db.execute(select(Usuario).filter(Usuario.id == usuario_id))
+    return result.scalar_one_or_none()
 
 async def create_usuario(db: AsyncSession, usuario: UsuarioCreate):
     nuevo_usuario = Usuario(nombre=usuario.nombre, contraseña=usuario.contraseña)
@@ -13,6 +17,13 @@ async def create_usuario(db: AsyncSession, usuario: UsuarioCreate):
     await db.commit()
     await db.refresh(nuevo_usuario)
     return nuevo_usuario
+
+async def delete_usuario(db: AsyncSession, usuario_id: int):
+    usuario = await get_usuario(db, usuario_id)
+    if usuario:
+        await db.delete(usuario)
+        await db.commit()
+    return usuario
 
 async def get_recetas(db: AsyncSession):
     result = await db.execute(select(Receta))
@@ -41,3 +52,11 @@ async def create_receta(db: AsyncSession, receta_data: RecetaCreate):
     await db.refresh(nueva_receta, ["ingredientes", "usuario"])
         
     return nueva_receta
+
+async def delete_receta(db: AsyncSession, receta_id: int):
+    result = await db.execute(select(Receta).filter(Receta.id == receta_id))
+    receta = result.scalar_one_or_none()
+    if receta:
+        await db.delete(receta)
+        await db.commit()
+    return receta
