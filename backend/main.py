@@ -8,7 +8,7 @@ from .crud import (
     create_receta, get_recetas, delete_receta
 )
 from .prolog.consultas import obtener_recetas_por_dificultad, obtener_recetas_saludables, buscar_recetas_por_ingrediente
-from models import Usuario, Receta
+from .models import Usuario, Receta
 app = FastAPI()
 
 @app.on_event("startup")
