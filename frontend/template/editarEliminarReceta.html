@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container">
+    <h1>Editar o Eliminar Receta</h1>
+    <div id="receta-container">
+        <form id="editar-receta-form">
+            <h2>Editar Receta: {{ receta.nombre }}</h2>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" value="{{ receta.nombre }}" required>
+            
+            <label for="tiempo_preparacion">Tiempo de preparación (minutos):</label>
+            <input type="number" id="tiempo_preparacion" name="tiempo_preparacion" value="{{ receta.tiempo_preparacion }}" required>
+
+            <label for="ingredientes">Ingredientes (separados por coma):</label>
+            <input type="text" id="ingredientes" name="ingredientes" value="{{ receta.ingredientes | join(', ') }}" required>
+
+            <button type="submit">Guardar Cambios</button>
+        </form>
+
+        <button id="eliminar-btn">Eliminar Receta</button>
+    </div>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const recetaId = "{{ receta.id }}";  // Asumiendo que el id de la receta está disponible en el contexto
+
+        // Enviar formulario de edición
+        document.getElementById("editar-receta-form").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const nombre = document.getElementById("nombre").value;
+            const tiempo_preparacion = document.getElementById("tiempo_preparacion").value;
+            const ingredientes = document.getElementById("ingredientes").value.split(",").map(ingrediente => ingrediente.trim());
+
+            try {
+                const response = await fetch(`/recetas/editar/${recetaId}/`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ nombre, tiempo_preparacion, ingredientes })
+                });
+
+                if (response.ok) {
+                    alert("Receta actualizada correctamente.");
+                    window.location.href = "/recetas/";
+                } else {
+                    alert("Error al actualizar la receta.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Hubo un problema al guardar los cambios.");
+            }
+        });
+
+        // Eliminar receta
+        document.getElementById("eliminar-btn").addEventListener("click", async () => {
+            if (confirm("¿Estás seguro de que quieres eliminar esta receta?")) {
+                try {
+                    const response = await fetch(`/recetas/eliminar/${recetaId}/`, {
+                        method: "DELETE",
+                    });
+
+                    if (response.ok) {
+                        alert("Receta eliminada correctamente.");
+                        window.location.href = "/recetas/";
+                    } else {
+                        alert("Error al eliminar la receta.");
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                    alert("Hubo un problema al eliminar la receta.");
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}
