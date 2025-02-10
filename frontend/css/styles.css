@@ -27,13 +27,11 @@ body {
     height: 24px;
 }
 
-/* Responsive design for images and text alignment */
 img.img-fluid {
     max-width: 100%;
     height: auto;
 }
 
-/* Styling for the navigation links */
 .navbar-nav .nav-item {
     display: flex;
     align-items: center;
